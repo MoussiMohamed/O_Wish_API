@@ -19,7 +19,7 @@ REST_ROUTER.prototype.handleRoutes = function(router,connection,md5) {
             if(err) {
                 res.json({"Error" : true, "Message" : "Error executing MySQL query"});
             } else {
-                res.json({"Error" : false, "Message" : "Success", "Wishes" : rows});
+                res.json({"Error" : false, "Message" : "Success", "wishes" : rows});
             }
         });
     });
@@ -58,7 +58,7 @@ REST_ROUTER.prototype.handleRoutes = function(router,connection,md5) {
       if(err) {
         res.json({"Error" : true, "Message" : "Error executing MySQL query: "+err});
       } else {
-        res.json({"Error" : false, "Message" : "Wish Added !", "Wishes" : rows});
+        res.json({"Error" : false, "Message" : "Wish Added !", "wish" : rows});
       }
     });
   });
