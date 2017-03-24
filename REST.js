@@ -86,7 +86,7 @@ REST_ROUTER.prototype.handleRoutes = function(router,connection,md5) {
         query = mysql.format(query,table);
         connection.query(query,function(err,rows){
             if(err) {
-                res.json({"Error" : true, "Message" : "Error executing MySQL query"});
+                res.json({"Error" : true, "Message" : "Error executing MySQL query "+err});
             } else {
                 res.json({"Error" : false, "Message" : "User Added !"});
             }
@@ -94,15 +94,15 @@ REST_ROUTER.prototype.handleRoutes = function(router,connection,md5) {
     });
 
   router.post("/new_wish",function(req,res){
-    var query = "INSERT INTO ??(??) VALUES (?)";
-    var table = ["wishes", "wish", req.body.wish];
+    var query = "INSERT INTO ??(??, ??) VALUES (?, ?)";
+    var table = ["wishes", "wish", "created_at", req.body.wish, new Date()];
     query = mysql.format(query,table);
     connection.query(query,function(err,rows){
       if(err) {
         res.json({"Error" : true, "Message" : "Error executing MySQL query: "+err});
       } else {
         res.json({"Error" : false, "Message" : "Wish Added !", "wish" : rows});
-        io.sockets.emit('new wish', {'wish': req.body.wish, 'id': rows.insertId});
+        io.sockets.emit('new wish', {'wish': req.body.wish, 'id': rows.insertId, 'created_at': new Date()});
       }
     });
   });
